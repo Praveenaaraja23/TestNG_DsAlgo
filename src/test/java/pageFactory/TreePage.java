@@ -1,4 +1,6 @@
 package pageFactory;
+import java.util.NoSuchElementException;
+
 import org.openqa.selenium.Alert;
 import org.openqa.selenium.By;
 import org.openqa.selenium.NoAlertPresentException;
@@ -9,6 +11,7 @@ import org.openqa.selenium.support.PageFactory;
 import org.testng.annotations.DataProvider;
 import utils.configReader;
 import utils.DriverManager;
+import utils.LoggerLoad;
 import utils.excelReader;
 
 public class TreePage {
@@ -29,6 +32,8 @@ public class TreePage {
 	WebElement Practice_Questions;
 	@FindBy(xpath= "//a[text()='NumpyNinja']")
 	WebElement hometext;
+	@FindBy(xpath="//div[@class='col-sm']/strong/p[@class='bg-secondary text-white']")
+	WebElement Textfrompage;
 	String result;
 	String excelPath = configReader.excelpath();
 	excelReader excelReader = new excelReader(excelPath);
@@ -81,8 +86,16 @@ public class TreePage {
 	}
 
 	public void navigateToLink(String linkText) {
-		WebElement link = driver.findElement(By.xpath("//a[text()='" + linkText + "']"));
-		link.click();
+		try {
+		    WebElement link = driver.findElement(By.xpath("//a[text()='" + linkText + "']"));
+		    if (link.isDisplayed() && link.isEnabled()) {
+		        link.click();
+		    } else {
+		        LoggerLoad.info("Link is not clickable or visible.");
+		    }
+		} catch (NoSuchElementException e) {
+		    LoggerLoad.error("Element not found: " + e.getMessage());
+		}
 	}
 
      public String getActualmsg() {
@@ -96,14 +109,24 @@ public class TreePage {
 		}
 		return result;
 	}
-	public String getTreePageTitle() {
+	public String getallpagestext() {
 		String title = driver.getTitle();
 		return title;
+	}
+	public String alltreetext() {
+		String Text=Textfrompage.getText();
+		return Text;
+		
 	}
 
 	@DataProvider(name="treeTestData")
 	public  Object[][] getTreeTestData() throws Exception {
 		return excelReader.readSheet("Treepage");
+
+	}
+	@DataProvider(name="Treeassert")
+	public  Object[][] checkassert() throws Exception {
+		return excelReader.readSheet("Assertions");
 
 	}
 
