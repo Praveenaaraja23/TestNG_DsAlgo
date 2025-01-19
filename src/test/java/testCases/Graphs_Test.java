@@ -8,8 +8,9 @@ import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
 import baseTest.BaseTests;
 import utils.LoggerLoad;
-import pageFactory.LoginPage;
+import utils.RetryAnalyzer;
 import pageFactory.GraphsPage;
+
 
 public class Graphs_Test extends BaseTests {
 	GraphsPage graph;
@@ -26,10 +27,14 @@ public class Graphs_Test extends BaseTests {
 
 	}
 
-	@Test(dataProvider = "GraphsTestData", dataProviderClass = GraphsPage.class, priority = 1)
+	@Test(dataProvider = "GraphsTestData", dataProviderClass = GraphsPage.class,retryAnalyzer=RetryAnalyzer.class,priority = 1)
 	public void testgraphPage(String linkText, String Code, String ExpectedOutput) {
 		// Navigate to the link based on linkText
 		graph.navigateToLink(linkText);
+		String actualMessage = graph.getallpagestext();
+		LoggerLoad.info("Actual Message  :" + actualMessage);
+		LoggerLoad.info("Expected Message  :" + linkText);	
+		Assert.assertEquals( actualMessage,linkText);
 		graph.click_Tryherebtn();
 		graph.Entercode_Tryeditor(Code);
 		graph.runbtn();
@@ -39,11 +44,11 @@ public class Graphs_Test extends BaseTests {
 		LoggerLoad.info("ExpectedOutput  :" + ExpectedOutput);
 	}
 
-	@Test(priority = 2)
-	public void testPracticequestions() {
+	@Test(dataProvider ="Graphassert", dataProviderClass = GraphsPage.class,retryAnalyzer=RetryAnalyzer.class,priority=2)
+	public void testPracticequestions(String Expectedtitle) {
 		graph.click_Practice_Questions();
-
-		Assert.assertEquals(graph.Homepagetext(), "practice Questions");
+		Assert.assertEquals(graph.Homepagetext(), Expectedtitle);
+		//Assert.assertEquals(graph.Homepagetext(), "practice Questions");
 		LoggerLoad.info("NO questions found ");
 	}
 }

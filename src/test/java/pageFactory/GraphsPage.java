@@ -43,6 +43,9 @@ public class GraphsPage {
 
 	@FindBy(xpath = "//a[text()='NumpyNinja']")
 	WebElement hometext;
+	
+	@FindBy(xpath = "//div[@class='col-sm']/strong/p[@class='bg-secondary text-white']")
+	WebElement allliststext;
 
 	String result;
 	String excelPath = configReader.excelpath();
@@ -99,6 +102,12 @@ public class GraphsPage {
 		runcmd.click();
 
 	}
+	
+	public String getallpagestext() {
+		String pages =allliststext.getText();
+		return pages;
+		
+	}
 
 	public void navigateToLink(String linkText) {
 
@@ -131,6 +140,12 @@ public class GraphsPage {
 	@DataProvider(name = "GraphsTestData")
 	public Object[][] getDatastructuresTestData() throws Exception {
 		return excelReader.readSheet("Graphpage");
+
+	}
+	
+	@DataProvider(name="Graphassert")
+	public  Object[][] checkassert() throws Exception {
+	return excelReader.readSheet("Assertions");
 
 	}
 

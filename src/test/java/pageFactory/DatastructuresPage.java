@@ -38,6 +38,9 @@ public class DatastructuresPage {
 	@FindBy(xpath = "//a[text()='NumpyNinja']")
 	WebElement hometext;
 
+	@FindBy(xpath = "//div[@class='col-sm']/strong/p[@class='bg-secondary text-white']")
+	WebElement allliststext;
+
 	String result;
 	String excelPath = configReader.excelpath();
 	excelReader excelReader = new excelReader(excelPath);
@@ -97,6 +100,12 @@ public class DatastructuresPage {
 		link.click();
 	}
 
+	public String getallpagestext() {
+		String pages = allliststext.getText();
+		return pages;
+
+	}
+
 	public String getActualmsg() {
 		try {
 
@@ -114,5 +123,12 @@ public class DatastructuresPage {
 		return excelReader.readSheet("Datastructurespage");
 
 	}
+	
+	@DataProvider(name="Datastructuresassert")
+	public  Object[][] checkassert() throws Exception {
+	return excelReader.readSheet("Assertions");
+
+	}
+
 
 }
