@@ -1,20 +1,23 @@
 package baseTest;
-	import java.io.IOException;
-import java.util.Arrays;
 
+import java.io.IOException;
+import java.util.Arrays;
 import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
 import org.openqa.selenium.WebDriver;
-	import org.testng.Reporter;
-	import org.testng.annotations.AfterMethod;
-	import org.testng.annotations.BeforeMethod;
-	import org.testng.annotations.Parameters;
-
+import org.testng.Reporter;
+import org.testng.annotations.AfterMethod;
+import org.testng.annotations.BeforeMethod;
+import org.testng.annotations.Parameters;
 import pageFactory.LoginPage;
 import utils.LoggerLoad;
-    import utils.configReader;
+import utils.configReader;
 import utils.excelReader;
 import utils.DriverManager;
+//import com.aventstack.chaintest.plugins.ChainTestListener;
 
+
+
+ // @Listeners(ChainTestListener.class)
 	public class BaseTests {
 	    private static WebDriver driver;
 	    private static DriverManager driverFactory;
@@ -55,5 +58,3 @@ import utils.DriverManager;
 	        driverFactory.quitDriver();
 	    }
 	}
-
-
