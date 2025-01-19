@@ -1,12 +1,19 @@
 package baseTest;
-	import org.openqa.selenium.WebDriver;
+	import java.io.IOException;
+import java.util.Arrays;
+
+import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
+import org.openqa.selenium.WebDriver;
 	import org.testng.Reporter;
 	import org.testng.annotations.AfterMethod;
 	import org.testng.annotations.BeforeMethod;
 	import org.testng.annotations.Parameters;
-	import utils.LoggerLoad;
+
+import pageFactory.LoginPage;
+import utils.LoggerLoad;
     import utils.configReader;
-    import utils.DriverManager;
+import utils.excelReader;
+import utils.DriverManager;
 
 	public class BaseTests {
 	    private static WebDriver driver;
@@ -28,6 +35,19 @@ package baseTest;
 	            LoggerLoad.info("Initializing driver for : "+ browser);
 	        }
 	        
+	    }
+	    
+	    public void validlogin() throws IOException, InvalidFormatException {
+	    	LoginPage login;
+	    	String excelPath = configReader.excelpath();
+	    	excelReader excelReader1 = new excelReader(excelPath);
+			Object[][] validLoginData = excelReader1.readSheetWithColumns("Login", Arrays.asList("Username", "Password"));
+			String Username = validLoginData[0][0].toString(); // Assuming the first row
+			String Password = validLoginData[0][1].toString();
+			login = new LoginPage();
+			login.GetStarted();
+			login.clicksign();
+			login.login(Username, Password);
 	    }
 	    
 	     @AfterMethod

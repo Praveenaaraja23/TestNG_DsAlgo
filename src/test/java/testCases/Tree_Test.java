@@ -1,5 +1,7 @@
 package testCases;
 import java.io.IOException;
+import java.util.Arrays;
+
 import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
 import org.testng.Assert;
 import org.testng.annotations.BeforeMethod;
@@ -7,31 +9,30 @@ import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
 import baseTest.BaseTests;
 import utils.LoggerLoad;
-import pageFactory.LoginPage;
 import pageFactory.TreePage;
 
 public class Tree_Test extends BaseTests{
-	LoginPage	login;
 	TreePage tree;
+	BaseTests base;
 
 	@BeforeMethod
 	@Parameters("browser")
 	public void entertreepage() throws InvalidFormatException, IOException {
-		login = new LoginPage();
-		login.GetStarted();
-		login.clicksign();
-		String Username = "Vidya"; 
-		String Password = "Kanaka@185";
-		login.login(Username, Password);
+		base=new BaseTests();
+		base.validlogin();
 		tree=new TreePage();
 		tree.getStarted();
 		tree.click_overview_tree();
 	}
 
-	@Test(dataProvider ="treeTestData", dataProviderClass = TreePage.class)
+	@Test(dataProvider ="treeTestData", dataProviderClass = TreePage.class,priority=1)
 	public void testTreePage(String linkText, String Code, String ExpectedOutput) {
 		// Navigate to the link based on linkText
 		tree.navigateToLink(linkText);
+		String actualMessage = tree.getallpagestext();
+		LoggerLoad.info("Actual Message  :" + actualMessage);
+		LoggerLoad.info("Expected Message  :" + linkText);	
+		Assert.assertEquals( actualMessage,linkText);
 		tree.click_Tryherebtn();
 		tree.Entercode_Tryeditor(Code);
 		tree.runbtn();
@@ -40,14 +41,16 @@ public class Tree_Test extends BaseTests{
 		LoggerLoad.info("Actual result  :" + ActulaResult);
 		LoggerLoad.info("ExpectedOutput  :" + ExpectedOutput);
 	}
-	@Test
-	public void testPracticequestions() {
+	
+	
+	@Test(dataProvider ="treeassert", dataProviderClass = TreePage.class,priority=2)
+	public void testPracticequestions(String Expectedtitle) {
 		tree.click_Practice_Questions();
-		Assert.assertEquals(tree.Homepagetext(),"practice Questions");
+		Assert.assertEquals(tree.Homepagetext(),Expectedtitle);
 		LoggerLoad.info("NO questions found ");   
 	}
-}
 
+}
 
 
 
