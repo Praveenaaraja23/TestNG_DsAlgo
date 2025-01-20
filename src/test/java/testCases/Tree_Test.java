@@ -9,6 +9,8 @@ import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
 import baseTest.BaseTests;
 import utils.LoggerLoad;
+import utils.RetryAnalyzer;
+import pageFactory.DatastructuresPage;
 import pageFactory.TreePage;
 
 public class Tree_Test extends BaseTests{
@@ -25,7 +27,7 @@ public class Tree_Test extends BaseTests{
 		tree.click_overview_tree();
 	}
 
-	@Test(dataProvider ="treeTestData", dataProviderClass = TreePage.class,priority=1)
+	@Test(dataProvider ="treeTestData", dataProviderClass = TreePage.class,retryAnalyzer=RetryAnalyzer.class,priority=1)
 	public void testTreePage(String linkText, String Code, String ExpectedOutput) {
 		// Navigate to the link based on linkText
 		tree.navigateToLink(linkText);
@@ -43,11 +45,11 @@ public class Tree_Test extends BaseTests{
 	}
 	
 	
-	@Test(dataProvider ="treeassert", dataProviderClass = TreePage.class,priority=2)
+	@Test(dataProvider ="Treeassert", dataProviderClass = TreePage.class,retryAnalyzer=RetryAnalyzer.class,priority=2)
 	public void testPracticequestions(String Expectedtitle) {
 		tree.click_Practice_Questions();
-		Assert.assertEquals(tree.Homepagetext(),Expectedtitle);
-		LoggerLoad.info("NO questions found ");   
+		Assert.assertEquals(tree.Homepagetext(), Expectedtitle);
+		LoggerLoad.info("NO questions found ");
 	}
 
 }

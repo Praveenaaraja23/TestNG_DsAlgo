@@ -7,7 +7,7 @@ import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Parameters;
 import pageFactory.LoginPage;
 import utils.LoggerLoad;
-
+import utils.RetryAnalyzer;
 
 import java.io.IOException;
 
@@ -22,7 +22,7 @@ public class Login_Test extends BaseTests {
 		login.clicksign();
 	}
 
-	@Test(dataProvider ="LoginTestData", dataProviderClass = LoginPage.class)
+	@Test(dataProvider ="LoginTestData", dataProviderClass = LoginPage.class,retryAnalyzer=RetryAnalyzer.class)
 	public void testLoginPage(String Username, String Password, String Message) throws InvalidFormatException, IOException {
 		login.login(Username, Password);
 		String ActulaResult = login.processCredentials(Username , Password);
