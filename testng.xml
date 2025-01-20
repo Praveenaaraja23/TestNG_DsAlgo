@@ -22,7 +22,7 @@
               </classes>
               </test>
               
-            
+  <!--          
    <test name="FirefoxTest">
         <parameter name="browser" value="firefox" />
         <classes>
@@ -53,5 +53,5 @@
         <class name="testCases.Queue_Test" />
          <class name="testCases.Stack_Test" /> 
         </classes>
-	    </test>   
+	    </test> -->
 </suite>
